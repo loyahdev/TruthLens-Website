@@ -131,9 +131,19 @@ const Header = () => {
       duration: 0.3
     }}>
           <div className="container mx-auto px-4 py-4 space-y-2">
-            {['Features', 'Documentation', 'Blog'].map(item => <a key={item} href="#" className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
-                {item}
-              </a>)}
+            {[
+              { name: 'About', href: '/about' },
+              { name: 'View Datasets', href: '/view-datasets' },
+              { name: 'Try the Demo', href: '/demo' }
+            ].map(item => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                {item.name}
+              </a>
+            ))}
             <div className="pt-2">
               <a href="/demo" className="flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:from-blue-700 hover:to-purple-700">
                 Get Started
