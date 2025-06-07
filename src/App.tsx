@@ -7,6 +7,7 @@ import Features from './components/Features';
 import Footer from './components/Footer';
 import About from './pages/about';
 import Demo from './pages/demo';
+import ViewDatasetsPage from './pages/view-datasets';
 
 function Home() {
   return (
@@ -45,6 +46,7 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/demo" element={<Demo />} />
+        <Route path="/view-datastes" element={<ViewDatasetsPage />} />
       </Routes>
     </Router>
   );
