@@ -56,6 +56,15 @@ const Header = () => {
               >
                 About
               </motion.a>
+              <motion.a
+                href="/view-datasets"
+                className="text-slate-600 hover:text-blue-600 dark:text-slate-200 dark:hover:text-blue-400 font-medium transition-colors"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                View Datasets
+              </motion.a>
               {/*<motion.a
                 href="#docs"
                 className="text-slate-600 hover:text-blue-600 dark:text-slate-200 dark:hover:text-blue-400 font-medium transition-colors"
