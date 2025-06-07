@@ -36,7 +36,7 @@ const Hero = () => {
             in seconds.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <motion.a href="#analyzer" className="flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-base font-medium text-white shadow-md hover:shadow-lg transition-all duration-200" whileHover={{
+            <motion.a href="/demo" className="flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-base font-medium text-white shadow-md hover:shadow-lg transition-all duration-200" whileHover={{
             scale: 1.05
           }} whileTap={{
             scale: 0.95
