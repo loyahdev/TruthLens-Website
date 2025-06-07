@@ -63,7 +63,7 @@ const Features = () => {
       }} transition={{
         duration: 0.6
       }}>
-          Why Intent AI
+          Why Truth Lens
         </motion.h2>
         <motion.p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto" initial={{
         opacity: 0,

@@ -42,7 +42,7 @@ const Header = () => {
                 className="w-10 h-10 rounded-xl object-cover"
               />
               <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                Intent AI
+                Truth Lens
               </span>
             </a>
           </motion.div>
@@ -56,7 +56,7 @@ const Header = () => {
               >
                 About
               </motion.a>
-              <motion.a
+              {/*<motion.a
                 href="#docs"
                 className="text-slate-600 hover:text-blue-600 dark:text-slate-200 dark:hover:text-blue-400 font-medium transition-colors"
                 initial={{ opacity: 0, y: -20 }}
@@ -73,7 +73,7 @@ const Header = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 Blog
-              </motion.a>
+              </motion.a>*/}
             </nav>
           <div className="flex items-center space-x-4">
             {/*<motion.button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" whileTap={{

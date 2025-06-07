@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   RadarChart,
@@ -25,7 +25,7 @@ type ScoreKey =
   | 'Polarizing'
   | 'Emotional'
   | 'Harmful'
-  | 'Informative';
+  | 'Bias';
 
 interface Result {
   scores: Record<ScoreKey, number>;
@@ -35,13 +35,13 @@ interface Result {
   intentTokens: { label: string; value: number }[];
 }
 
-const mockResult: Result = {
+const fallbackResult: Result = {
   scores: {
     Manipulative: 42,
     Polarizing: 35,
     Emotional: 68,
     Harmful: 23,
-    Informative: 55,
+    Bias: 55,
   },
   highlights: [
     '“You won’t believe…”',
@@ -59,16 +59,16 @@ const mockResult: Result = {
     { label: 'Polarizing', value: 90 },
     { label: 'Emotional', value: 180 },
     { label: 'Harmful', value: 45 },
-    { label: 'Informative', value: 220 },
+    { label: 'Bias', value: 220 },
   ],
 };
 
 const baselineTokens: { label: string; avg: number }[] = [
-  { label: 'Manipulative', avg: 60 },
-  { label: 'Polarizing', avg: 50 },
-  { label: 'Emotional',   avg: 100 },
-  { label: 'Harmful',     avg: 30 },
-  { label: 'Informative', avg: 180 },
+  { label: 'Manipulative', avg: 25 },
+  { label: 'Polarizing',   avg: 20 },
+  { label: 'Emotional',    avg: 45 },
+  { label: 'Harmful',      avg: 15 },
+  { label: 'Bias',         avg: 30 },
 ];
 
 export default function Demo() {
@@ -107,16 +107,16 @@ export default function Demo() {
     const shareText = `📰 Intent‑AI Report
 
 Original input:
-"${text.trim().slice(0, 400)}${text.length > 400 ? '…' : ''}"
+"${text.trim().slice(0, 650)}${text.length > 650 ? '…' : ''}"
 
 Scores (0‑100):
 • Manipulative: ${result.scores.Manipulative}%
 • Polarizing : ${result.scores.Polarizing}%
 • Emotional  : ${result.scores.Emotional}%
 • Harmful    : ${result.scores.Harmful}%
-• Informative: ${result.scores.Informative}%
+• Bias: ${result.scores.Bias}%
 
-Harmful rating: ${result.harmfulRating}%
+Overall Avg Risk: ${result.harmfulRating}%
 
 Notable phrases:
 ${result.highlights.map((h) => `• ${h}`).join('\n')}
@@ -144,24 +144,99 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
 
   const handleAnalyze = () => {
     if (!text.trim()) return;
+
     setLoading(true);
     setResult(null);
-    setProcessLogs(['Running local model...']);
+    setProcessLogs(['Submitting text to API...']);
 
-    // simulate pipeline progress
-    setTimeout(() => setProcessLogs((l) => [...l, 'Received local scores.']), 500);
-    setTimeout(() => setProcessLogs((l) => [...l, 'Sending to GPT‑4o...']), 1000);
-    setTimeout(
-      () => setProcessLogs((l) => [...l, 'Compiling final report...']),
-      1500
-    );
-
-    // mock 2‑second “API” call
-    setTimeout(() => {
-      setResult(mockResult);
-      setLoading(false);
-      setProcessLogs([]); // clear logs when finished
+    // start a log ticker every second
+    const ticker = setInterval(() => {
+      setProcessLogs((logs) => [...logs, 'Running AI response...']);
     }, 2000);
+
+    // Strip http:// or https:// from the text before sending to the API
+    const cleanText = text.replace(/https?:\/\//gi, '');
+    const payload = { text: cleanText.trim() };
+
+    fetch('https://intentapi.loyah.dev/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        clearInterval(ticker);
+        setProcessLogs((l) => [...l, 'Compiling model data...']);
+
+        // If it's a Twitter/X URL and we got the post text, replace the textarea with the text
+        console.log('Tweet response:', data.tweet_text);
+        if (text.includes('twitter.com') || text.includes('x.com')) {
+          if (data.tweet_text) {
+            setText(data.tweet_text);
+          }
+        }
+
+        // map API payload → Result type
+        const api = data.report;
+        // compute overall average (rounded) across all five scores
+        const allScores = [
+          api.scores.manipulative,
+          api.scores.polarizing,
+          api.scores.emotional,
+          api.scores.harmful ?? 0,
+          api.scores.bias,
+        ];
+        const avgRisk = Math.round(
+          allScores.reduce((a, b) => a + b, 0) / allScores.length
+        );
+
+        const countsOK = api.counts ?? {
+          manipulative: 0,
+          polarizing: 0,
+          emotional: 0,
+          harmful: 0,
+          bias: 0,
+        };
+
+        const mapped: Result = {
+          scores: {
+            Manipulative: api.scores.manipulative,
+            Polarizing: api.scores.polarizing,
+            Emotional: api.scores.emotional,
+            // fallback: if API omitted scores.harmful, use harmfulRating (overall avg) instead
+            Harmful: api.scores.harmful ?? api.harmfulRating ?? avgRisk,
+            Bias: api.scores.bias,
+          },
+          highlights: api.notablePhrases ?? [],
+          harmfulRating: avgRisk,            // now overall average
+          nextSteps: Array.isArray(api.nextSteps) ? api.nextSteps : [],
+          intentTokens: [
+            { label: 'Manipulative', value: countsOK.manipulative },
+            { label: 'Polarizing',  value: countsOK.polarizing },
+            { label: 'Emotional',   value: countsOK.emotional },
+            { label: 'Harmful',     value: countsOK.harmful },
+            { label: 'Bias',        value: countsOK.bias },
+          ],
+        };
+
+        setTimeout(() => {
+          setResult(mapped);
+          setLoading(false);
+          setProcessLogs([]); // clear log after compile
+        }, 5000);
+        // setResult(mapped);
+        // setLoading(false);
+        // setProcessLogs([]); // clear log after compile
+      })
+      .catch((err) => {
+        console.error(err);
+        clearInterval(ticker);
+        setProcessLogs((l) => [...l, '⚠️  Error – using fallback data']);
+        // fallback so UI isn’t empty
+        setResult(fallbackResult);
+        setLoading(false);
+        setTimeout(() => setProcessLogs([]), 3000);
+      });
   };
 
   return (
@@ -191,7 +266,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Intent AI Live Demo V0.6.1
+          Truth Lens Live Demo V0.6.1
         </motion.h1>
 
         {/* Input card */}
@@ -204,7 +279,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Paste article text or write something to analyze…"
+            placeholder="Paste article text, write something to analyze, or paste a link to an X (Twitter) post…"
             className="w-full h-40 p-4 rounded-2xl bg-white/70 dark:bg-slate-700/70 border border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
             disabled={loading}
           />
@@ -272,13 +347,18 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                       <RadarChart data={Object.entries(result.scores).map(([k, v]) => ({ category: k, value: v }))}>
                         <PolarGrid stroke="#64748b" strokeDasharray="3 3" />
                         <PolarAngleAxis dataKey="category" tick={<AngleTick />} />
-                        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+                        <PolarRadiusAxis
+                          angle={30}
+                          domain={[0, 100]}
+                          tick={false}
+                          axisLine={false}   // no spoke line
+                        />
                         <Radar
                           name="Intent"
                           dataKey="value"
                           stroke="#a78bfa"
                           fill="#a78bfa"
-                          fillOpacity={0.6}
+                          fillOpacity={0.6}       // ← disables hover line/dot
                         />
                         <ReTooltip
                           contentStyle={{
@@ -310,7 +390,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                     ))}
                     {/* harmful rating */}
                     <div className="pt-4">
-                      <h4 className="font-medium mb-1">Harmful Rating</h4>
+                      <h4 className="font-medium mb-1">Overall Avg Risk</h4>
                       <div className="w-full h-3 bg-slate-700 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-400"
@@ -342,9 +422,12 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                 {/* angled gradient stripe */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-700/20 to-blue-700/10 rotate-2 origin-top left-0" />
                 <div className="relative bg-slate-800/80 backdrop-blur-lg border border-slate-700 rounded-3xl p-8 shadow-2xl">
-                  <h3 className="text-2xl font-semibold mb-6 text-slate-100">
-                    Intent Proportions Compared to Basslines
+                  <h3 className="text-2xl font-semibold mb-2 text-slate-100">
+                    Intent Proportions
                   </h3>
+                  <p className="text-sm text-slate-400 mb-4">
+                    Reads each amount of intent issues found for different categories, higher is worse.
+                  </p>
                   <div className="grid gap-8 lg:grid-cols-2 items-center">
                     {/* donut chart */}
                     <div className="h-72">
@@ -391,7 +474,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                             ></span>
                             <span className="flex-1">{t.label}</span>
                             <span className="font-semibold text-slate-100">
-                              {t.value} <span className="font-normal text-xs text-slate-400">(avg {baseline})</span>
+                              {t.value} {/*<span className="font-normal text-xs text-slate-400">(avg {baseline})</span>*/}
                             </span>
                           </li>
                         );

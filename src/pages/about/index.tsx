@@ -69,7 +69,7 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-semibold mb-2">📰 What is Intent AI?</h3>
+            <h3 className="text-2xl font-semibold mb-2">📰 What is Truth Lens?</h3>
             <p className="leading-relaxed">
               A hybrid AI tool that understands hidden manipulation, polarization, and
               emotional framing in any text. Local model for speed, GPT‑4o for
@@ -96,7 +96,7 @@ export default function About() {
               To combat this people use tools like ChatGPT to understand what these articles mean. With its online trained data most of the 
               time you wont be getting anything other than public opinions.
               <br /><br />
-              Thats why I decided to build Intent AI, a tool that solves these problems and is trained on data that matters - not opinions
+              Thats why I decided to build Truth Lens, a tool that solves these problems and is trained on data that matters - not opinions
               from random polititions on the internet.
             </p>
           </motion.div>
@@ -152,7 +152,7 @@ export default function About() {
         </motion.section>
         <br />
         <h3 className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              In total Intent AI took about 2 months to build, and I am very proud of getting to a demo to show at TKS.
+              In total Truth Lens took about 2 months to build, and I am very proud of getting to a demo to show at TKS.
               I plan on expanding it in the future to include more features and make the model more accurate in
               extremely difficult situations. Lots of work went in, from training my model based on differeent case studies about datasets,
               to even testing my knowledge in coding with AI. It now gets mostly accurate outputs to more than 90% of tests I tried. Making this
@@ -161,7 +161,7 @@ export default function About() {
 
             <img
             src="/modeltest.png"
-            alt="Intent AI example output"
+            alt="Truth Lens example output"
             className="w-full max-w-2xl mx-auto mt-6 rounded-lg shadow-lg"
             />
       </main>

@@ -21,12 +21,12 @@ const Footer = () => {
                 className="w-10 h-10 rounded-xl object-cover"
               />
               <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                Intent AI
+                Truth Lens
               </span>
             </a>
             </div>
             <p className="text-slate-600 dark:text-slate-300 mb-4 max-w-md">
-              Intent AI provides powerful text analysis tools to help you
+              Truth Lens provides powerful text analysis tools to help you
               understand user intent and make valuable data-driven decisions.
             </p>
             <div className="flex space-x-4">

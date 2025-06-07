@@ -16,7 +16,7 @@ const Hero = () => {
           <div className="inline-flex items-center rounded-full px-4 py-1.5 backdrop-blur-md bg-white/30 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 shadow-sm">
             <span className="flex items-center text-xs font-medium text-blue-600 dark:text-blue-400">
               <Sparkles size={14} className="mr-1.5" />
-              Introducing Intent AI
+              Introducing Truth Lens
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -29,7 +29,7 @@ const Hero = () => {
           </h1>
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl">
             Paste any article, tweet, or press release and let&nbsp;
-            <span className="font-semibold">Intent AI</span> shadow hidden
+            <span className="font-semibold">Truth Lens</span> shadow hidden
             manipulation, polarization, emotional framing, or harmful
             information. Get instant outputs and bar‑chart scores plus a concise
             explanation so you can read critically and make the correct decisions
