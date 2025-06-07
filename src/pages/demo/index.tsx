@@ -154,7 +154,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
     // start a log ticker every second
     const ticker = setInterval(() => {
       setProcessLogs((logs) => [...logs, 'Running AI response...']);
-    }, 2000);
+    }, 4000);
 
     // Strip http:// or https:// from the text before sending to the API
     const cleanText = text.replace(/https?:\/\//gi, '');
