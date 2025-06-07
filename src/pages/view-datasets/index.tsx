@@ -75,12 +75,14 @@ const ViewDatasetsPage = () => {
         </div>
 
         {!isExpanded && (
-          <button
-            onClick={() => setIsExpanded(true)}
-            className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+          <a
+            href="https://truthlens.loyah.dev/train.csv"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
           >
             Read More
-          </button>
+          </a>
         )}
       </div>
       <Footer />
