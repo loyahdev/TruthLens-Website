@@ -504,7 +504,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
               </div>
 
               {/* Explanation Feedback */}
-              <div className="bg-slate-100 dark:bg-slate-800 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-xl">
+              <div className="bg-slate-100 dark:bg-slate-800 backdrop-blur-lg border-4 border-yellow-400 dark:border-yellow-300 rounded-3xl p-8 shadow-xl animate-pulse">
                 <h3 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
                   AI Summary & Feedback
                 </h3>
