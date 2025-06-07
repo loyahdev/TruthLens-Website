@@ -25,6 +25,11 @@ const ViewDatasetsPage = () => {
       <Header />
       <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold mb-6">View Datasets</h1>
+        <p>
+            View my datasets used to the train the local Truth Lens model and view the repository that hosts the project.
+        </p>
+
+        <br />
 
         <div className="mb-6">
           <img
