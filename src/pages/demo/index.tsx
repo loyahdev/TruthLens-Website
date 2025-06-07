@@ -33,6 +33,7 @@ interface Result {
   harmfulRating: number;
   nextSteps: string[];
   intentTokens: { label: string; value: number }[];
+  explanationSummary: string;
 }
 
 const fallbackResult: Result = {
@@ -218,6 +219,7 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
             { label: 'Harmful',     value: countsOK.harmful },
             { label: 'Bias',        value: countsOK.bias },
           ],
+          explanationSummary: api.explanationSummary ?? '',
         };
 
         setTimeout(() => {
@@ -499,6 +501,16 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                     </ul>
                   </div>
                 </div>
+              </div>
+
+              {/* Explanation Feedback */}
+              <div className="bg-slate-100 dark:bg-slate-800 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-xl">
+                <h3 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+                  AI Summary & Feedback
+                </h3>
+                <p className="text-slate-700 dark:text-slate-300">
+                  {result?.explanationSummary ?? 'No explanation provided for this analysis.'}
+                </p>
               </div>
 
               {/* Key Risk Drivers */}
