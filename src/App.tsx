@@ -46,7 +46,7 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/demo" element={<Demo />} />
-        <Route path="/view-datastes" element={<ViewDatasetsPage />} />
+        <Route path="/view-datasets" element={<ViewDatasetsPage />} />
       </Routes>
     </Router>
   );
