@@ -80,6 +80,7 @@ export default function Demo() {
 
   const [hoverCat, setHoverCat] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
+  const [isValidUrl, setIsValidUrl] = useState(true);
 
   const AngleTick = (props: any) => {
     const { x, y, payload } = props;
@@ -278,18 +279,34 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
         >
           <textarea
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              const input = e.target.value;
+              setText(input);
+              const twitterRegex = /^https?:\/\/(twitter\.com|x\.com)\/[A-Za-z0-9_]+\/status\/\d+$/;
+              if (input.includes('http')) {
+                setIsValidUrl(twitterRegex.test(input.trim()));
+              } else {
+                setIsValidUrl(true);
+              }
+            }}
             placeholder="Paste article text, write something to analyze, or paste a link to an X (Twitter) post…"
             className="w-full h-40 p-4 rounded-2xl bg-white/70 dark:bg-slate-700/70 border border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
             disabled={loading}
           />
+          {!isValidUrl && (
+            <p className="text-red-500 mt-2 text-sm">
+              Only valid Twitter/X status URLs are supported.
+            </p>
+          )}
           <div className="flex justify-end mt-4">
             <motion.button
               onClick={handleAnalyze}
-              disabled={loading || !text.trim()}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50"
-              whileHover={{ scale: loading || !text.trim() ? 1 : 1.05 }}
-              whileTap={{ scale: loading || !text.trim() ? 1 : 0.95 }}
+              disabled={loading || !text.trim() || !isValidUrl}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 ${
+                (!text.trim() || !isValidUrl) ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              whileHover={{ scale: loading || !text.trim() || !isValidUrl ? 1 : 1.05 }}
+              whileTap={{ scale: loading || !text.trim() || !isValidUrl ? 1 : 0.95 }}
             >
               {loading ? (
                 <svg
