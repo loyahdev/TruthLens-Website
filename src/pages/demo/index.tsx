@@ -279,6 +279,22 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
+          {/* Example buttons */}
+          <div className="flex flex-wrap gap-3 mb-4">
+            {[
+              'https://x.com/MarioNawfal/status/1931120397182787782',
+              'https://x.com/realDonaldTrump/status/1925548216243703820',
+              'https://x.com/FoxNews/status/1931368970969305584',
+            ].map((url, idx) => (
+              <button
+                key={idx}
+                onClick={() => setText(url)}
+                className="px-4 py-2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+              >
+                {idx === 0 ? "Elon's Dismantle" : idx === 1 ? "Trump Opinions" : "Fox News"}
+              </button>
+            ))}
+          </div>
           <textarea
             value={text}
             onChange={(e) => {
