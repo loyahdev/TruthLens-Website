@@ -26,6 +26,13 @@ const ViewDatasetsPage = () => {
       <div className="max-w-6xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold mb-6">View Datasets</h1>
 
+        <div className="mb-6">
+          <img
+            src="https://opengraph.githubassets.com/1/loyahdev/TruthLens-Website"
+            alt="GitHub Repo Preview"
+            className="rounded shadow"
+          />
+        </div>
         <div className="mb-10">
           <iframe
             src="https://ghbtns.com/github-btn.html?user=loyahdev&repo=TruthLens-Website&type=star&count=true"
