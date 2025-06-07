@@ -2,11 +2,14 @@ import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Cpu, BrainCog, BarChart2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function About() {
   return (
     <>
       <Header />
+      {/* zero‑width joiner to discourage Safari Reader mode */}
+      <span className="hidden" aria-hidden="true">&#8203;</span>
       
       {/* --- ANIMATED BACKGROUND BLOBS --- */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -25,7 +28,13 @@ export default function About() {
       </div>
       {/* --- HERO / PROFILE --- */}
       <main className="container mx-auto px-4 py-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <motion.div
+          className="flex flex-col lg:flex-row items-center gap-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           {/* Profile image */}
           <img
             src="/jaxonpic.png"
@@ -45,7 +54,7 @@ export default function About() {
               house tracks.
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* --- FANCY DIVIDER --- */}
         <div className="my-16 w-full h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-600" />
@@ -53,7 +62,13 @@ export default function About() {
         {/* --- PROJECT OVERVIEW SECTIONS --- */}
         <section className="grid gap-8 lg:grid-cols-2">
           {/* Card 1 */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded-xl shadow-lg border border-black boder-t-2">
+          <motion.div
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded-xl shadow-lg border border-black border-t-2"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             <h3 className="text-2xl font-semibold mb-2">📰 What is Intent AI?</h3>
             <p className="leading-relaxed">
               A hybrid AI tool that understands hidden manipulation, polarization, and
@@ -62,10 +77,16 @@ export default function About() {
               <strong>read critically in seconds</strong>. Both models combined reach over 90% accurate
               results on almost 3000 tests and numerous real-world articles.
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 2 */}
-          <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg border border-black border-t-2">
+          <motion.div
+            className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg border border-black border-t-2"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-2">
               Why I built it
             </h3>
@@ -78,14 +99,20 @@ export default function About() {
               Thats why I decided to build Intent AI, a tool that solves these problems and is trained on data that matters - not opinions
               from random polititions on the internet.
             </p>
-          </div>
+          </motion.div>
         </section>
 
         {/* --- FANCY DIVIDER --- */}
         <div className="my-10 w-full h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-600" />
 
         {/* --- TECH SPECS SECTION --- */}
-        <section className="mt-15 bg-slate-900/90 text-slate-100 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg border border-slate-700">
+        <motion.section
+          className="mt-15 bg-slate-900/90 text-slate-100 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg border border-slate-700"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
           <div className="px-8 py-10 md:px-16">
             <h3 className="text-3xl font-bold mb-6">Under the Hood Technicals</h3>
             <div className="grid gap-10 md:grid-cols-3">
@@ -122,7 +149,7 @@ export default function About() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
         <br />
         <h3 className="text-slate-600 dark:text-slate-300 leading-relaxed">
               In total Intent AI took about 2 months to build, and I am very proud of getting to a demo to show at TKS.

@@ -6,6 +6,7 @@ import TextAnalyzer from './components/TextAnalyzer';
 import Features from './components/Features';
 import Footer from './components/Footer';
 import About from './pages/about';
+import Demo from './pages/demo';
 
 function Home() {
   return (
@@ -43,6 +44,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/demo" element={<Demo />} />
       </Routes>
     </Router>
   );

@@ -12,7 +12,7 @@ const features = [
     icon: <BrainCircuit size={24} />,
     title: 'GPT‑4o Deep Context',
     description:
-      'API layers xeeper explanations so you understand the intent behind the words.'
+      'API layers deeper explanations so you understand the intent behind the words.'
   },
   {
     icon: <BarChart3Icon size={24} />,

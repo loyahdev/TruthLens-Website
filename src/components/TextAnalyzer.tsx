@@ -44,7 +44,12 @@ const TextAnalyzer = () => {
   }, [animateCharts]);
   return (
     <section id="analyzer" className="py-12">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 px-4">
+      <motion.div
+        className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 px-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         {/* left: profile image */}
         <img
           src="/jaxonpic.png"
@@ -92,7 +97,7 @@ const TextAnalyzer = () => {
             Learn more about me &amp; Intent‑AI
           </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
