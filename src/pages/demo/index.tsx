@@ -280,7 +280,13 @@ ${result.nextSteps.map((n, i) => `${i + 1}. ${n}`).join('\n')}
                           fill="#a78bfa"
                           fillOpacity={0.6}
                         />
-                        <ReTooltip />
+                        <ReTooltip
+                          contentStyle={{
+                            background: '#1e293b', // slate‑800 solid
+                            border: 'none',
+                            color: '#e2e8f0',
+                          }}
+                        />
                       </RadarChart>
                     </ResponsiveContainer>
                   </div>
